@@ -187,6 +187,85 @@ Tinker:
 
 É uma ferramenta nativa do Laravel, um console interativo que acessa as classes do projeto através da linha de comando. Através dele podemos manipular as classes relativas aos models, podendo por exemplo instanciar essas classes e executar os métodos, também podemos testar o mapeamento objeto relacional entre as classes dos models e o banco de dados relacional. Ou seja, com o Tinker não precisamos de uma plicação front para testar essa relação, funciona como um atalho no Laravel para realizar essa tarefa.
 
+No Eloquent temos algumas limitações, como por exemplo a nomeação das classes nos model. Ou seja, automaticamente o Eloquent tem a inteligência de identificar o nome das tabelas no banco de dados colocando a letra ‘s’ no final do nome da classe. Mas por conta disso, teremos um erro em algum momento quando o Eloquent não pluraliza corretamente o nome da tabela.
+Nesses casos podemos definir na classe a sobreposição do nome da tabela para que não aconteça esse tipo de erro usando o atributo $table, conforme descrito abaixo:
+
+```
+protected $table = ‘fornecedores’;
+```
+
+Podemos inserir dados no banco pela instancia dos objetos e adicionando atributos a esses objetos e por fim executava o método save():
+```
+>>> $f2 = new App\Models\Fornecedor();
+=> App\Models\Fornecedor {#3556}
+
+>>> $f2->nome = 'Fornecedor XYZ';
+=> "Fornecedor XYZ"
+
+>>> $f2->site = 'fornecedorxyz.com.br';
+=> "fornecedorxyz.com.br"
+
+>>> $f2->uf = 'SP';
+=> "SP"
+
+>>> $f2->email = 'contato@fornecedorxyz.com.br';
+=> "contato@fornecedorxyz.com.br"
+
+>>> print_r($f2→getAttributes());
+```
+
+Porém podemos utilizar também um método estático para inserção de dados, com uma sintaxe mais enxuta que não depende da instância do objeto. Basta chamar o método recuperando a classe no tinker seguido de dois ponto ‘::’ e em seguida o método estático create([]).
+Para não haver erro, é necessário incluir o método $fillable na classe, passando um array de objetos, que são na verdade as colunas da tabela.
+
+<br>
+Com o método ::all() podemos recuperar todos os registros realizados no banco:
+
+```
+>>> use \App\Models\Fornecedor;
+>>> $fornecedores = Fornecedor::all();
+=> Illuminate\Database\Eloquent\Collection {#3570
+     all: [
+       App\Models\Fornecedor {#3572
+         id: 1,
+         nome: "Fornecedor XYZ",
+         site: "fornecedorxyz.com.br",
+         created_at: "2022-06-14 00:01:11",
+         updated_at: "2022-06-14 00:01:11",
+         uf: "SP",
+         email: "contato@fornecedorxyz.com.br",
+       },
+     ],
+   }
+```
+
+Com o método ::find() também podemos recuperar dados do banco, mas esse método estático necessita de parâmetros, mais especificamente o parâmetro ‘id’.
+```
+>>> $fornecedores2 = Fornecedor::find(1);
+```
+
+<br>
+Com o método ::where()->get() podemos recuperar dados passando uma query adequada a busca, podendo colocar regras específicas para buscar registros mais detalhados.
+
+```
+>>> use \App\Models\SiteContato;
+>>> $contatos = SiteContato::where('id', '>', 1)->get();
+=> Illuminate\Database\Eloquent\Collection {#4250
+     all: [
+       App\Models\SiteContato {#3890
+         id: 2,
+         created_at: "2022-06-13 23:12:45",
+         updated_at: "2022-06-13 23:12:45",
+         nome: "Maria",
+         telefone: "(11) 93333-4444",
+         email: "maria@contato.com.br",
+         motivo_contato: 2,
+         mensagem: "Estou gostando muito do Super Usuario",
+       },
+     ],
+   }
+
+```
+
 <hr>
 <br><br>
 
