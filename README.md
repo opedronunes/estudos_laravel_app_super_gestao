@@ -265,6 +265,32 @@ Com o método ::where()->get() podemos recuperar dados passando uma query adequa
    }
 
 ```
+<br>
+Método whereIn():
+
+Este método espera dois parâmetros, o primeiro é o campo a ser comparado por igualdade e o segundo é o conjunto de parâmetros. Esses parâmetros podem ser valores numéricos, strings e datas, podendo passar quantos forem necessários, basta separá-los por vírgula.
+```
+>>> use \App\Models\SiteContato;
+>>> $contatos = SiteContato::whereIn('motivo_contato', [1, 3])→get();
+```
+
+Método whereNotIn():
+
+Este método, diferente do acima explicado faz uma comparação por diferente aos parâmetros passados.
+```
+>>> use \App\Models\SiteContato;
+>>> $contatos = SiteContato::whereNotIn('motivo_contato', [1, 3])→get();
+```
+Método AND:
+
+com esse operador podemos conectar mais query na busca de resultados. Mas no tinker ao invés de escrever a palavra ‘and’ declaramos uma nova pesquisa com ‘→’. Para retornar resultado todas a operações devem ser verdadeiras.
+
+Método OR:
+	
+Para a junção das operações utilizamos a palavra or antes do método a esquerda. Para retornar valor apenas uma das operações precisa ser verdadeira.
+```
+orwhere() - orwhereIn() - orwhereBetween()
+```
 
 <hr>
 <br><br>
