@@ -277,6 +277,7 @@ Este método espera dois parâmetros, o primeiro é o campo a ser comparado por 
 Método whereNotIn():
 
 Este método, diferente do acima explicado faz uma comparação por diferente aos parâmetros passados.
+
 ```
 >>> use \App\Models\SiteContato;
 >>> $contatos = SiteContato::whereNotIn('motivo_contato', [1, 3])→get();
@@ -292,7 +293,197 @@ Para a junção das operações utilizamos a palavra or antes do método a esque
 orwhere() - orwhereIn() - orwhereBetween()
 ```
 
+<br>
+
+COLLECTION: First, Last, Reverse, toArray, toJson, Pluck
+
+First – Este método retorna apenas o primeiro registro da collection.
+
+```
+>>> $contatos->first();
+=> App\Models\SiteContato {#4492
+     id: 4,
+     created_at: null,
+     updated_at: null,
+     nome: "Rosa",
+     telefone: "(33) 92222-3333",
+     email: "rosa@contato.com.br",
+     motivo_contato: 1,
+     mensagem: "Quando custa essa aplicação?",
+   }
+
+```
+
+Last – Este método retorna apenas o ultimo elemento do array da collection.
+
+```
+>>> $contatos->last();
+=> App\Models\SiteContato {#4496
+     id: 8,
+     created_at: null,
+     updated_at: null,
+     nome: "Helena",
+     telefone: "(11) 97777-8888",
+     email: "helena@contato.com.br",
+     motivo_contato: 2,
+     mensagem: "Consigo controlar toda a minha empresa de modo fácil e prático.",
+   }
+```
+
+Reverse – Retorna a ordem inversa do array.
+```
+>>> $contatos->reverse();
+=> Illuminate\Database\Eloquent\Collection {#4501
+     all: [
+       4 => App\Models\SiteContato {#4496
+         id: 8,
+         created_at: null,
+         updated_at: null,
+         nome: "Helena",
+         telefone: "(11) 97777-8888",
+         email: "helena@contato.com.br",
+         motivo_contato: 2,
+         mensagem: "Consigo controlar toda a minha empresa de modo fácil e prático.",
+       },
+       3 => App\Models\SiteContato {#4495
+         id: 7,
+         created_at: null,
+         updated_at: null,
+         nome: "Ana",
+         telefone: "(33) 96666-7777",
+         email: "ana@contato.com.br",
+         motivo_contato: 3,
+         mensagem: "Não gostei muito das cores, consigo mudar de tema?",
+       },
+```
+
+toArray - Com este método a colletion é convertida para um array.
+```
+>>> SiteContato::all()->toArray();
+=> [
+     [
+       "id" => 1,
+       "created_at" => "2022-06-13T23:06:01.000000Z",
+       "updated_at" => "2022-06-13T23:06:01.000000Z",
+       "nome" => "JOrge",
+       "telefone" => "(11) 98888-4444",
+       "email" => "jorge@contato.com.br",
+       "motivo_contato" => 1,
+       "mensagem" => "Olá, gostaria de mias detalhes sobre o Super Gestão",
+     ],
+```
+toJson – Com este método a collection é convertida para uma string do tipo json.
+```
+>>> SiteContato::all()->toJson();
+=> "[{"id":1,"created_at":"2022-06-13T23:06:01.000000Z","updated_at":"2022-06-13T23:06:01.000000Z","nome":"JOrge","telefone":"(11) 98888-4444","email":"jorge@contato.com.br","motivo_contato":1,"mensagem":"Ol\u00e1, gostaria de mias detalhes sobre o Super Gest\u00e3o"},{"id":2,"created_at":"2022-06-13T23:12:45.000000Z","updated_at":"2022-06-13T23:12:45.000000Z","nome":"Maria","telefone":"(11) 93333-4444","email":"maria@contato.com.br","motivo_contato":2,"mensagem":"Estou gostando muito do Super Usuario"},{"id":3,"created_at":null,"updated_at":null,"nome":"Jo\u00e3o","telefone":"(88) 91111-2222","email":"joao@contato.com.br","motivo_contato":3,"mensagem":"\u00c9 muito dif\u00edcil localizar a op\u00e7\u00e3o de listar todos os produtos"},{"id":4,"created_at":null,"updated_at":null,"nome":"Rosa","telefone":"(33) 92222-3333","email":"rosa@contato.com.br","motivo_contato":1,"mensagem":"Quando custa essa aplica\u00e7\u00e3o?"},{"id":5,"created_at":null,"updated_at":null,"nome":"Fernando","telefone":"(11) 94444-5555","email":"fernando@contato.com.br","motivo_contato":1,"mensagem":"Como consigo criar multiplos usu\u00e1rios para minha empresa?"},{"id":6,"created_at":null,"updated_at":null,"nome":"Andr\u00e9","telefone":"(88) 95555-6666","email":"andre@contato.com.br","motivo_contato":2,"mensagem":"Parab\u00e9ns pela ferramenta, estou obtendo \u00f3timos resultados!"},{"id":7,"created_at":null,"updated_at":null,"nome":"Ana","telefone":"(33) 96666-7777","email":"ana@contato.com.br","motivo_contato":3,"mensagem":"N\u00e3o gostei muito das cores, consigo mudar de tema?"},{"id":8,"created_at":null,"updated_at":null,"nome":"Helena","telefone":"(11) 97777-8888","email":"helena@contato.com.br","motivo_contato":2,"mensagem":"Consigo controlar toda a minha empresa de modo f\u00e1cil e pr\u00e1tico."}]"
+
+>>>
+```
+
+pluck – Este método permite retornar todos os valores de uma determinada chave. E com segundo parâmetro retornarmos um array associativo.
+```
+>>> SiteContato::all()->pluck('email');
+=> Illuminate\Support\Collection {#4516
+     all: [
+       "jorge@contato.com.br",
+       "maria@contato.com.br",
+       "joao@contato.com.br",
+       "rosa@contato.com.br",
+       "fernando@contato.com.br",
+       "andre@contato.com.br",
+       "ana@contato.com.br",
+       "helena@contato.com.br",
+     ],
+   }
+
+>>> 
+<br>
+>>> SiteContato::all()->pluck('email', 'nome');
+=> Illuminate\Support\Collection {#4520
+     all: [
+       "JOrge" => "jorge@contato.com.br",
+       "Maria" => "maria@contato.com.br",
+       "João" => "joao@contato.com.br",
+       "Rosa" => "rosa@contato.com.br",
+       "Fernando" => "fernando@contato.com.br",
+       "André" => "andre@contato.com.br",
+       "Ana" => "ana@contato.com.br",
+       "Helena" => "helena@contato.com.br",
+     ],
+   }
+
+>>> 
+```
+
+Método delete():
+Para deletar um registro no banco de dados basta recuperar o id e em seguida usar o método como exemplo abaixo.
+>>> $contato = SiteContato::find(4);
+=> App\Models\SiteContato {#3892
+     id: 4,
+     created_at: null,
+     updated_at: null,
+     nome: "Rosa",
+     telefone: "(33) 92222-3333",
+     email: "rosa@contato.com.br",
+     motivo_contato: 1,
+     mensagem: "Quando custa essa aplicação?",
+   }
+
+>>> $contato→delete();
+
+
+Método destroy(): Para apagar registros basta executar este método podendo passar vários id’s.
+>>> SiteContato::destroy(5);
+=> 1
+
+<br>
+Método delete():
+	Para deletar um registro no banco de dados basta recuperar o id e em seguida usar o método como exemplo abaixo.
+>>> $contato = SiteContato::find(4);
+=> App\Models\SiteContato {#3892
+     id: 4,
+     created_at: null,
+     updated_at: null,
+     nome: "Rosa",
+     telefone: "(33) 92222-3333",
+     email: "rosa@contato.com.br",
+     motivo_contato: 1,
+     mensagem: "Quando custa essa aplicação?",
+   }
+
+>>> $contato→delete();
+
+
+Método destroy(): Para apagar registros basta executar este método podendo passar vários id’s.
+>>> SiteContato::destroy(5);
+=> 1
+
+SoftDeletes:
+
+Método utilizado para controle de registros excluídos do banco de dados, a fim de ter ainda a possibilidade de recuperar esses dados. Para usá-lo precisamos chamar este método na classe em questão e também na migration incluir o método na criação da tabela.
+Para recuperar os registros excluídos e ativos utilizamos o método withTrashed() ou apenas os excluido usando onlyTrashed().
+
+>>> Fornecedor::withTrashed()->get();
+=> Illuminate\Database\Eloquent\Collection {#3588
+     all: [
+       App\Models\Fornecedor {#3589
+         id: 1,
+         nome: "Fornecedor 123",
+         site: "fornecedor123.com.br",
+         created_at: "2022-06-14 00:01:11",
+         updated_at: "2022-06-16 01:44:21",
+         uf: "SP",
+         email: "contato@fornecedor123.com.br",
+         deleted_at: "2022-06-16 01:44:21",
+       },
+     ],
+   }
+
+Para recuperar um registro basta utilizar o método restore().
+$fornecedores[0]->restore();
+
 <hr>
+
 <br><br>
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
