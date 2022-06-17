@@ -543,6 +543,19 @@ qual seeder deverá ser execudada para inserir os dados.
 php artisan db:seed --class=SiteContatoSeeder
 ```
 
+FACTORIES:
+
+Basecamente uma factory permite através de uma seeder semear em massa uma tabela no banco de dados utilizando uma bilbioteca chama Faker.
+Para criar uma factory devemos indicar o model que será utilizado como modelo:
+```
+php artisan make:fatory SiteContatoFactory --model=SiteContato
+```
+Após criação da factory e sua estrutura utilizando os métodos da biblioteca Faker, devemos incluir a factory na Seeder em questão da seguinte forma:
+```
+SiteContato::factory()->count(100)->create();
+```
+
+Para excutar de fato a inseçao fake no banco basta chamar novamente o método php artisan db:seed --class=SiteContatoSeeder
 
 
 
