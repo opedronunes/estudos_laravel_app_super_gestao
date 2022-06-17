@@ -417,6 +417,7 @@ pluck – Este método permite retornar todos os valores de uma determinada chav
 
 Método delete():
 Para deletar um registro no banco de dados basta recuperar o id e em seguida usar o método como exemplo abaixo.
+```
 >>> $contato = SiteContato::find(4);
 => App\Models\SiteContato {#3892
      id: 4,
@@ -430,15 +431,19 @@ Para deletar um registro no banco de dados basta recuperar o id e em seguida usa
    }
 
 >>> $contato→delete();
+```
 
-
+```
 Método destroy(): Para apagar registros basta executar este método podendo passar vários id’s.
 >>> SiteContato::destroy(5);
 => 1
-
+```
 <br>
+
 Método delete():
-	Para deletar um registro no banco de dados basta recuperar o id e em seguida usar o método como exemplo abaixo.
+Para deletar um registro no banco de dados basta recuperar o id e em seguida usar o método como exemplo abaixo.
+
+```
 >>> $contato = SiteContato::find(4);
 => App\Models\SiteContato {#3892
      id: 4,
@@ -452,17 +457,20 @@ Método delete():
    }
 
 >>> $contato→delete();
-
+```
 
 Método destroy(): Para apagar registros basta executar este método podendo passar vários id’s.
+```
 >>> SiteContato::destroy(5);
 => 1
+```
 
 SoftDeletes:
 
 Método utilizado para controle de registros excluídos do banco de dados, a fim de ter ainda a possibilidade de recuperar esses dados. Para usá-lo precisamos chamar este método na classe em questão e também na migration incluir o método na criação da tabela.
 Para recuperar os registros excluídos e ativos utilizamos o método withTrashed() ou apenas os excluido usando onlyTrashed().
 
+```
 >>> Fornecedor::withTrashed()->get();
 => Illuminate\Database\Eloquent\Collection {#3588
      all: [
@@ -478,11 +486,66 @@ Para recuperar os registros excluídos e ativos utilizamos o método withTrashed
        },
      ],
    }
+```
 
 Para recuperar um registro basta utilizar o método restore().
+```
 $fornecedores[0]->restore();
 
+```
 <hr>
+
+SEEDERS:
+
+São responsáveis por semear o banco de dados com os dados iniciais de configuração atracés de classes. Para entender melhor na prática para criar uma classe seeders:
+```
+php artisan make:seeder FornecedorSeeder
+```
+Existem três formas de inserir dados através da classe semeadora:
+- Instanciando o objeto
+```
+//instaciando o objeto
+$fornecedor = new Fornecedor();
+$fornecedor->nome = 'Fornecedor 100';
+$fornecedor->site = 'fornecedor100.com .br';
+$fornecedor->uf = 'CE';
+$fornecedor->email = 'cotato@fornecedor100.com.br';
+$fornecedor->save();
+```
+- Método create com método fillable declarado no model
+```
+//Método create - definir método fillable no model
+Fornecedor::create([
+    'nome'=> 'Fornecedor 200',
+    'site'=> 'fornecedor200.com.br',
+    'uf'=> 'DF',
+    'email'=> 'contato@fornecedor200.com.br',
+]);
+```
+- insert com DB
+```
+//insert
+DB::table('fornecedores')->insert([
+    'nome'=> 'Fornecedor 300',
+    'site'=> 'fornecedor300.com.br',
+    'uf'=> 'RS',
+    'email'=> 'contato@fornecedor300.com.br',
+]);
+```
+
+Após a criação da classe e seu método de inclusão de registros no banco podemos chamar o método a seguir para de fato inserir os registros:
+```
+php artisan db:seed
+```
+Para não inserir novamente os dados de uma seeder ja executada podemos comentar a classe na DatabaseSeeder ou simplesmente informar na chamada
+qual seeder deverá ser execudada para inserir os dados.
+```
+php artisan db:seed --class=SiteContatoSeeder
+```
+
+
+
+
 
 <br><br>
 
