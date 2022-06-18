@@ -21,7 +21,7 @@ use App\Http\Controllers\TesteController;
 Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
 
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
-Route::post('/contato', [ContatoController::class, 'contato'])->name('site.contato');
+Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
 
 Route::get('/sobreNos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
 
