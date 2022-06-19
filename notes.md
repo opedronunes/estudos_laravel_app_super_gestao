@@ -97,3 +97,59 @@ chamado old() que recebe como parâmetro os inputs, basta colocar este método n
     <button type="submit" class="{{ $classe }}">ENVIAR</button>
 </form>
 ```
+
+Validação de campos único (Unique):<br>
+    Este método é indicado quando a aplicação exige que um usuários seja único, evitando duplicidade de dados e acessos. Para
+utilizar este recurso diponibilizado pelo Laravel, mais especificamente no controller, basta utilizar como parâmetro no método
+validate().
+```
+$request->validate([
+    'nome' => 'required|min:3|max:40|unique:site_contatos',
+```
+Customização de erros:<br>
+    Nativamente o Laravel tem uma variável $erros, em que podemos explorar os tipos de erros existentes. Existem alguns métodos:
+
+- Any: Verifica se há erro retornando true ou false.
+```
+@if ($errors->any())
+    <div style="position: absolute; top:0px; left:0px; width:100%; background:red">
+        @foreach ($errors->all() as $erro)
+            {{ $erro }}
+        @endforeach
+    </div>
+@endif
+```
+- has: verifica de forma individual cada input se há erro.
+```
+@if ($errors->has('nome'))
+    {{ $errors->first('nome') }}
+@endif
+```
+```
+{{ $errors->has('telefone') ? $errors->first('telefone') : '' }}
+```
+Customizaçao de erros:<br>
+    Podemos customizar as mensagens da seguinte forma:
+```
+//Validação de dados antes da inserção de dados.
+$regras = 
+    [
+        'nome' => 'required|min:3|max:40',
+        'telefone' => 'required',
+        'email' => 'email',
+        'motivo_contatos_id' => 'required',
+        'mensagem' => 'required|max:2000'
+        
+    ];
+    $feedbacks = 
+    //Cutomização de mensagem de feedback e validação
+    [
+        'nome.min' => 'O campo nome precisa ter no mínimo 3 caracteres!',
+        'nome.max' => 'O campo nome recebe no máximo 40 caracteres!',
+        'email.email' => 'O e-mail informado não é válido!',
+        'mensagem.max' => 'A mensagem suporta no máximo 2.000 caracteres!',
+        
+        'required' => 'O campo :attribute precisa ser preenchido!'
+    ];
+$request->validate($regras, $feedbacks);
+```
