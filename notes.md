@@ -51,9 +51,49 @@ campos que são obrigatórios e precisam ser tratados, portanto a chave deste ar
 ```
 //Validação de dados antes da inserção de dados.
 $request->validate([
-        'nome' => 'required',
-        'telefone' => 'required',
-        'email' => 'required',
-        'motivo_contato' => 'required'
+    'nome' => 'required',
+    'telefone' => 'required',
+    'email' => 'required',
+    'motivo_contato' => 'required'
 ]);
+```
+
+Validação de dados com MAX e MIN: <br>
+- MIN:
+    Consiste em exigir no mínimo uma quantidade x de caracteres. Colocando esta regra no métdo validate() pode fazer
+    parte de um conjunto de regras para validação, basta utilizar o pipe '|' para separar os métodos de validação.
+- MAX:
+    Consiste em exigir uma quatidade máxima de caracteres.
+```
+$request->validate([
+    'nome' => 'required|min:3|max:40',
+    'telefone' => 'required',
+    'email' => 'required',
+    'motivo_contato' => 'required|max:2000'
+
+]);
+```
+Repopular o formulário:<br>
+    Consiste em manter os inputs corretos preenchidos no form depois de um erro. O próprio Blade do Laravel tem um recurso
+chamado old() que recebe como parâmetro os inputs, basta colocar este método na view na chamada value do input.
+```
+<form action={{ route('site.contato') }} method="post">
+    @csrf
+    <input type="text" value="{{ old('nome') }}" placeholder="Nome" class="{{ $classe }}" name="nome">
+    <br>
+    <input type="text" value="{{ old('telefone') }}" placeholder="Telefone" class="{{ $classe }}" name="telefone">
+    <br>
+    <input type="text" value="{{ old('email') }}" placeholder="E-mail" class="{{ $classe }}" name="email">
+    <br>
+    <select class="{{ $classe }}" name="motivo_contato">
+        <option value="">Qual o motivo do contato?</option>
+        <option value="1">Dúvida</option>
+        <option value="2">Elogio</option>
+        <option value="3">Reclamação</option>
+    </select>
+    <br>
+    <textarea class="{{ $classe }}" name="mensagem">{{ (old('mensagem') != '') ? old('mensagem') : 'Preencha aqui a sua mensagem' }}</textarea>
+    <br>
+    <button type="submit" class="{{ $classe }}">ENVIAR</button>
+</form>
 ```
