@@ -153,3 +153,7 @@ $regras =
     ];
 $request->validate($regras, $feedbacks);
 ```
+
+Middlewares:<br>
+    São recursos comuns e muito utilizados em frameworks, funciona como um intermediador de comunicação entre aplicações destintas,
+especificamente em aplicações web, os Middlewares atuam na receptação de requisições e repostas feitas pelos browsers.
