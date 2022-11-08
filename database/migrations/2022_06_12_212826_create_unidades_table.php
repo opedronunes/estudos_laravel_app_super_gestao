@@ -50,7 +50,7 @@ return new class extends Migration
 
         });
 
-        //Adicionar  o relacionamento com a tabela produtos
+        //Remover o relacionamento com a tabela produtos
         Schema::table('produtos', function(Blueprint $table){
 
             //remove a fk
