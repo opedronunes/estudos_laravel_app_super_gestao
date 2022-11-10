@@ -558,6 +558,26 @@ SiteContato::factory()->count(100)->create();
 Para excutar de fato a inseçao fake no banco basta chamar novamente o método php artisan db:seed --class=SiteContatoSeeder
 
 
+**Trabalhando com formulários**<br>
+O framework tem a inteligência de recuperar os dados do formulários no backend, mais epecificamente na Controller, através do método REQUEST.
+- validações:<br>
+Utliza-se o método validate() para realizar as validações, em que os names dos inputs são a chave da validação e no valor deve-se declarar as regras. Dentro da docuemntação do Laravel existe diversos métodos e regras para usar na validação.<br>
+Ex.:
+
+```
+'nome' => 'required|min:3|max:40',
+'telefone' => 'required',
+'email' => 'email',
+'motivo_contatos_id' => 'required',
+'mensagem' => 'required|max:2000'
+```
+
+Para recuperar valor dentro dos inputs caso o form não seja enviado por causa de algum erro na validação, usamos o método old na view dentro do input no value.
+<br>Ex.:<br>
+```
+input type="text" value="{{ old('telefone') }}" placeholder="Telefone" class="{{ $classe }}" name="telefone">
+```
+
 
 
 <br><br>
