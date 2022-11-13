@@ -578,6 +578,16 @@ Para recuperar valor dentro dos inputs caso o form não seja enviado por causa d
 input type="text" value="{{ old('telefone') }}" placeholder="Telefone" class="{{ $classe }}" name="telefone">
 ```
 
+**Middlewares**<br>
+Muito utilizado em frameworks, os middlewares são basicamente um intermediador de comunicação de entrada e saída de aplicações distintas. Atua no Request e Response da aplicação, interceptando esses dados antes de terem acesso ao conteúdo da aplicação, podendo ser tomada decisões e ações entre a requisição e resposta com o client.
+
+- Atribuir middlewares às rotas:<br>
+```
+Route::middleware(LogAcessoMiddleware::class)
+    ->get('/', [PrincipalController::class, 'principal'])
+    ->name('site.index');
+```
+
 
 
 <br><br>
