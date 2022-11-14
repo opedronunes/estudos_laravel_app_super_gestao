@@ -293,7 +293,7 @@ Para a junção das operações utilizamos a palavra or antes do método a esque
 orwhere() - orwhereIn() - orwhereBetween()
 ```
 
-<br>
+<hr>
 
 COLLECTION: First, Last, Reverse, toArray, toJson, Pluck
 
@@ -557,6 +557,7 @@ SiteContato::factory()->count(100)->create();
 
 Para excutar de fato a inseçao fake no banco basta chamar novamente o método php artisan db:seed --class=SiteContatoSeeder
 
+<hr>
 
 **Trabalhando com formulários**<br>
 O framework tem a inteligência de recuperar os dados do formulários no backend, mais epecificamente na Controller, através do método REQUEST.
@@ -577,6 +578,7 @@ Para recuperar valor dentro dos inputs caso o form não seja enviado por causa d
 ```
 input type="text" value="{{ old('telefone') }}" placeholder="Telefone" class="{{ $classe }}" name="telefone">
 ```
+<hr>
 
 **Middlewares**<br>
 Muito utilizado em frameworks, os middlewares são basicamente um intermediador de comunicação de entrada e saída de aplicações distintas. Atua no Request e Response da aplicação, interceptando esses dados antes de terem acesso ao conteúdo da aplicação, podendo ser tomada decisões e ações entre a requisição e resposta com o client.
@@ -587,7 +589,58 @@ Route::middleware(LogAcessoMiddleware::class)
     ->get('/', [PrincipalController::class, 'principal'])
     ->name('site.index');
 ```
+- Atribuir middlewares aos controllers:<br>
+```
+class SobreNosController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware(LogAcessoMiddleware::class);
+    }
+    
+    public function sobreNos() {
+        return view('site.sobre-nos');
+    }
+}
+```
+- Adicionar os middlewares a todas as rotas:<br>
+```
+protected $middlewareGroups = [
+    'web' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        -> Adicionamos em kernel.php o Middleware para ser adicionado as rotas contidas em web.php
+        \App\Http\Middleware\LogAcessoMiddleware::class,
+    ],
+```
+- Apelidar os Middlewares:<br>
+```
+protected $routeMiddleware = [
+    'auth' => \App\Http\Middleware\Authenticate::class,
+    'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+    'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+    'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+    'can' => \Illuminate\Auth\Middleware\Authorize::class,
+    'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+    'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+    'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+    'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+    'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    'log.acesso' => \App\Http\Middleware\LogAcessoMiddleware::class,
+];
+```
+- Encadiamento de middlewares:<br>
+```
+Route::middleware('log.acesso','autenticacao')
+        ->get('/clientes', function(){ return 'Clientes'; })
+        ->name('app.clientes');
+```
 
+  
 
 
 <br><br>

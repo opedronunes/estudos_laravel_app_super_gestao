@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\LogAcesso;
 use Closure;
 use Illuminate\Http\Request;
 
-class LogAcessoMiddleware
+class AutenticacaoMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,12 +14,13 @@ class LogAcessoMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $metodo_autenticacao)
     {
-        $ip = $request->server->get('REMOTE_ADDR');
-        $rota = $request->getRequestUri();
-        LogAcesso::create(['log' => "IP $ip requisitou a rota $rota."]);
-        
-        return $next($request);
+        //Verifica se o usuario existe-caso sim o next empurra o acesso para a aplicação.
+        if (false) {
+            return $next($request);  
+        }else {
+            return Response('Acesso negado, rota exige autenticação!!!');
+        }
     }
 }
