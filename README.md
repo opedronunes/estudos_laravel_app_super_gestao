@@ -640,7 +640,12 @@ Route::middleware('log.acesso','autenticacao')
         ->name('app.clientes');
 ```
 
-  
+<hr>
+
+**Atenticação no Laravel**
+
+- Para iniciar a sessão no laravel, devemos chamar o método session_start() e definir indices e valores a Super global $_SESSION;
+
 
 
 <br><br>
