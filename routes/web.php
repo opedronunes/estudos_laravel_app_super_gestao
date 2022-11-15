@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrincipalController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\SobreNosController;
 use App\Http\Controllers\TesteController;
 
@@ -23,16 +27,22 @@ Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
 Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
 Route::get('/sobreNos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
-Route::get('/login', function(){ return 'Login'; })->name('site.login');
+
+Route::get('/login{erro?}',[LoginController::class, 'index'])->name('site.login');
+Route::post('/login',[LoginController::class, 'autenticar'])->name('site.login');
 
 //AGRUPAMENTO DE ROTAS 
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function(){
 
-    Route::get('/clientes', function(){ return 'Clientes'; })->name('app.clientes');
+    Route::get('/home', [HomeController::class, 'index'])->name('app.home');
 
-    Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('app.fornecedores');
+    Route::get('/sair', [LoginController::class, 'sair'])->name('app.sair');
 
-    Route::get('/produtos', function(){ return 'Produtos'; })->name('app.produtos');
+    Route::get('/cliente', [ClienteController::class, 'index'])->name('app.cliente');
+
+    Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
+
+    Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
 
 });
 
