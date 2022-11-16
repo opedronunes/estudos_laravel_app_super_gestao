@@ -646,6 +646,27 @@ Route::middleware('log.acesso','autenticacao')
 
 - Para iniciar a sessão no laravel, devemos chamar o método session_start() e definir indices e valores a Super global $_SESSION;
 
+- Para ganhar produtividade em realizar um CRUD na aplicação, podemos reutilizar a mes view de adicionar para realizar a atualização de determinado id. 
+  Para realizar isso, devemos incluir na rota da view o destino e no form, dentro input realizar um ternário.
+```
+value="{{ $fornecedor->nome ?? old('nome') }}"
+Caso a variável retorne dados definidos imprima na tela, se não mostre os dados da requisição do form
+```
+
+- Paginação com reurso do Laravel. Para incluir a paginação de registro devemos chamar a função nativa do laravel paginate();
+```
+$fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%')
+  ->where('site', 'like', '%'.$request->input('site').'%')
+  ->where('uf', 'like', '%'.$request->input('uf').'%')
+  ->where('email', 'like', '%'.$request->input('email').'%')
+  ->paginate(2);
+```
+- Após devemos incluir na view o método responsável por exibir a paginação chamando o objeto da collection:<br>
+```
+{{ $fornecedores->links() }}
+```
+
+
 
 
 <br><br>
