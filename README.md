@@ -665,6 +665,11 @@ $fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%
 ```
 {{ $fornecedores->links() }}
 ```
+- Principais métodos do objeto Paginator:<br>
+*count* - Retorna o total de registro por página.<br>
+*total* - Retorn o total de registro da consulta.<br>
+*firstItem* - Retorna o número do primeiro registro da página.<br>
+*lastItem* - Retorna o númeor do ultimo registro da página.<br>
 
 
 
