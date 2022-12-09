@@ -671,6 +671,22 @@ $fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%
 *firstItem* - Retorna o número do primeiro registro da página.<br>
 *lastItem* - Retorna o númeor do ultimo registro da página.<br>
 
+<br>
+
+**Métodos HTTP**
+- **Get**: Serve para recuperar os dados de um recurso.
+<br>
+- **Post**: Propósito de persistir dados recebidos pela requisição.
+<br>
+- **Delete**: Propósito de remover alguma coisa.
+<br>
+- **Put**: Sobrepor o estado atual do registro.
+<br>
+- **Patch**: Sobrepor parcialmente o estado atual do registro.
+<br>
+
+
+
 
 
 
