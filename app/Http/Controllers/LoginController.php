@@ -49,6 +49,7 @@ class LoginController extends Controller
             ->where('password', $password)
             ->get()
             ->first();
+            
 
         if (isset($usuario->name)) {
             
