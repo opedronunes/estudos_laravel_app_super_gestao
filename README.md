@@ -685,6 +685,21 @@ $fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%
 - **Patch**: Sobrepor parcialmente o estado atual do registro.
 <br>
 
+**Relacionamentos eloquent ORM**
+- 1 para 1: hasOne -> Acessar o modelo mais forte do relacionamento, ou seja, que tenha a primary key que viaja até a tabela mais fraca no relacionamento e criar um método.<br>
+```
+public function ProdutoDetalhe(){
+    return $this->hasOne(ProdutoDetalhe::class);
+}
+```
+- 1 para 1: belongsTo -> Enquanto o hasOne define que uma tabela tem um ID, o belongsto define que uma tabela pertence á, método inverso ao anterior citado.
+```
+public function produto(){
+        return $this->belongsTo(Produto::class);
+    }
+```
+
+
 
 
 

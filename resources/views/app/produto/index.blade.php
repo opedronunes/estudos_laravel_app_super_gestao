@@ -22,6 +22,11 @@
                             <th>Descrição</th>
                             <th>Peso</th>
                             <th>Unidade_id</th>
+
+                            <th>Comprimento</th>
+                            <th>Largura</th>
+                            <th>Altura</th>
+
                             <th>Visualizar</th>
                             <th>Editar</th>
                             <th>Excluir</th>
@@ -34,6 +39,11 @@
                                 <td>{{ $produto->descricao }}</td>
                                 <td>{{ $produto->peso }}</td>
                                 <td>{{ $produto->unidade_id }}</td>
+
+                                <td>{{ $produto->produtoDetalhe->comprimento ?? '' }}</td>
+                                <td>{{ $produto->produtoDetalhe->largura ?? '' }}</td>
+                                <td>{{ $produto->produtoDetalhe->altura ?? '' }}</td>
+
                                 <td><a href="{{ route('produto.show', ['produto' => $produto->id]) }}">Visualizar</a></td>
                                 <td><a href="{{ route('produto.edit', $produto->id) }}">Editar</a></td>
                                 <td>
