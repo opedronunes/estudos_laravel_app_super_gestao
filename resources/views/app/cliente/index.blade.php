@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
+                            <th>Visualizar</th>
                             <th>Editar</th>
                             <th>Excluir</th>
                         </tr>
