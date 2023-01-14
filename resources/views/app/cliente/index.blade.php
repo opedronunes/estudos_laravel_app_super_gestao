@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($clientes $cliente)
+                        @foreach ($clientes as $cliente)
                             <tr>
                                 <td>{{ $cliente->nome }}</td>
                                 <td><a href="{{ route('cliente.show', ['cliente' => $cliente->id]) }}">Visualizar</a></td>
